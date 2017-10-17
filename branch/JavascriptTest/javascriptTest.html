@@ -11,12 +11,12 @@
 </head>  
 <body>
 
-	<div class="vue-test" >
+  <div class="vue-test" >
 
     <p> Set Category</p>
     <select v-model="selectedCategory" v-on:change ="updatePostList()"  >
         <option  v-for="category in categories" v-bind:value="category.cat" >
-           {{ category.cat }}
+           {{ category.name }}
         </option>
      </select>
 
@@ -24,29 +24,29 @@
      <p> Set Language</p>
     <select v-model="selectedLanguage" v-on:change ="updatePostList()"  >
         <option  v-for="lang in languages" v-bind:value="lang.code" >
-           {{ lang.code }}
+           {{ lang.name }}
         </option>
      </select>
 
      <p> Set Country</p>
     <select v-model="selectedCountry" v-on:change ="updatePostList()"  >
         <option  v-for="country in countries" v-bind:value="country.countryCode" >
-           {{ country.countryCode }}
+           {{ country.name }}
         </option>
      </select>
 
- 		 <h1>Posts List</h1>
-  		<ul v-for="post in posts">
-    		<li>
-      			<h1> {{post.name}}</h1>
-      			<p> {{post.description}}</p>
-      			<hr />
-    		</li>
- 		 </ul> 
+     <h1>Posts List</h1>
+      <ul v-for="post in posts">
+        <li>
+            <h1> {{post.name}}</h1>
+            <p> {{post.description}}</p>
+            <hr />
+        </li>
+     </ul> 
     
  
 
-	</div> 
+  </div> 
 
 
 

@@ -10,28 +10,31 @@ var vuePosts = new Vue({
           data: {
               posts: [],
                categories : [
-                   { cat: 'business' },
-                   { cat: 'entertainment' },
-                   { cat: 'gaming' },
-                   { cat: 'general' },
-                   { cat: 'music' },
-                   { cat: 'politics' },
-                   { cat: 'science-and-nature' },
-                   { cat: 'sport' },
-                   { cat: 'technology' }
+                   { name : "Select One" ,cat: '' },
+                   { name : "business" ,cat: 'business' },
+                   { name : "entertainment" ,cat: 'entertainment' },
+                   { name : "gaming" ,cat: 'gaming' },
+                   { name : "general" ,cat: 'general' },
+                   { name : "music" ,cat: 'music' },
+                   { name : "politics" ,cat: 'politics' },
+                   { name : "science-and-nature" ,cat: 'science-and-nature' },
+                   { name : "sport" ,cat: 'sport' },
+                   { name : "technology" ,cat: 'technology' }
                ],
                languages : [ 
-                   { code: 'en' },
-                   { code: 'de' },
-                   { code: 'fr' }  
+                   {  name : "Select One" ,code: '' },
+                   {  name : "English"    ,code: 'en' },
+                   {  name : "German"     ,code: 'de' },
+                   {  name : "French"     ,code: 'fr' }  
                ],
                countries : [  
-                   { countryCode: 'au' },
-                   { countryCode: 'de' },
-                   { countryCode: 'gb' },
-                   { countryCode: 'in' },
-                   { countryCode: 'it' },
-                   { countryCode: 'us' }  
+                   { name : "Select One" ,countryCode: '' },
+                   { name : "Australia" ,countryCode: 'au' },
+                   { name : "Germany" ,countryCode: 'de' },
+                   { name : "United Kingdom" ,countryCode: 'gb' },
+                   { name : "IN" ,countryCode: 'in' },
+                   { name : "Italy" ,countryCode: 'it' },
+                   { name : "USA" ,countryCode: 'us' }  
                ],
                selectedCategory : "",
                selectedLanguage : "",
