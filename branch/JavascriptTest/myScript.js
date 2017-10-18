@@ -5,6 +5,17 @@ const PARAM_LANG      = "language=";
 const PARAM_CATEGORY  = "&category=";
 const PARAM_COUNTRY   = "&country=";
 
+
+var localStorageObj   = window.localStorage;
+var postsLocalStorage;
+
+if(readContentToLocalStorage()) {
+    postsLocalStorage = readContentToLocalStorage(); 
+}
+ 
+
+
+
 var vuePosts = new Vue({
           el: '.vue-test',
           data: {
@@ -18,8 +29,8 @@ var vuePosts = new Vue({
                    { name : "music" ,cat: 'music' },
                    { name : "politics" ,cat: 'politics' },
                    { name : "science-and-nature" ,cat: 'science-and-nature' },
-                   { name : "sport" ,cat: 'sport' },
-                   { name : "technology" ,cat: 'technology' }
+                   { name : "sport"       ,cat: 'sport' },
+                   { name : "technology"  ,cat: 'technology' }
                ],
                languages : [ 
                    {  name : "Select One" ,code: '' },
@@ -34,7 +45,7 @@ var vuePosts = new Vue({
                    { name : "United Kingdom" ,countryCode: 'gb' },
                    { name : "IN" ,countryCode: 'in' },
                    { name : "Italy" ,countryCode: 'it' },
-                   { name : "USA" ,countryCode: 'us' }  
+                   { name : "USA"   ,countryCode: 'us' }  
                ],
                selectedCategory : "",
                selectedLanguage : "",
@@ -47,20 +58,20 @@ var vuePosts = new Vue({
                       axios.get(urlString, {
                           // to do adding more params
 
-
                       })
                       .then(function (response) {
                         // to do success
                         if(response.data.sources) {
+                            if(isEmpty(this.selectedLanguage) && isEmpty(this.selectedCategory) && isEmpty(this.selectedCountry)) {
+                                writeContentToLocalStorage(JSON.stringify(response.data.sources));
+                            }
                             that.posts = response.data.sources;
-                            console.log(response.data.sources);
-
+                            //console.log(response.data.sources);
                         } 
                       })
-                      .catch(function (error) {
-                        // to do failure
-                        alert("category not valid");
-                        console.log(error);
+                      .catch(function (error) { 
+                        that.posts = getLocalFilteredList();
+
                       });
 
                 },
@@ -71,9 +82,63 @@ var vuePosts = new Vue({
                 
               },
               mounted () {
+                if(readContentToLocalStorage()) {
+                    this.posts = readContentToLocalStorage();
+                }
                 this.getPosts()
               }
     });
 
+
+function writeContentToLocalStorage(jsonString) {
+    localStorageObj.setItem('myPosts', jsonString);
+    postsLocalStorage = readContentToLocalStorage();
+}
+
+function readContentToLocalStorage() {
+    var myPosts = localStorageObj.getItem("myPosts");
+    if(myPosts) {
+        return JSON.parse(myPosts);
+    }
+    return null;
+}
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
+function getLocalFilteredList() {
+    var filteredList = new Array() ;
+    if(postsLocalStorage) {
+        if(!isEmpty(vuePosts.selectedLanguage) || !isEmpty(vuePosts.selectedCategory) || !isEmpty(vuePosts.selectedCountry)) {
+            for(var count = 0  ; count < postsLocalStorage.length; count++)  {
+                var post = postsLocalStorage[count];
+                if(isAccordingToFilters(post)) {
+                    filteredList.push(post);
+                } 
+            }
+        }
+        else {
+            filteredList =  postsLocalStorage;
+        }
+    }
+
+    return filteredList;
+    
+}
+
+
+function isAccordingToFilters(obj) {
+    if(!isEmpty(vuePosts.selectedLanguage) && (obj.language != vuePosts.selectedLanguage)) {
+        return false;
+    }
+    if(!isEmpty(vuePosts.selectedCategory) && (obj.category != vuePosts.selectedCategory)) {
+        return false;
+    }
+    if(!isEmpty(vuePosts.selectedCountry) && (obj.country != vuePosts.selectedCountry)) {
+        return false;
+    }
+    return true;
+}
 
 
